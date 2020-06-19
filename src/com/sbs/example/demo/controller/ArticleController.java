@@ -79,11 +79,23 @@ public class ArticleController extends Controller {
 	// 게시물 수정
 	private void actionModify(Request reqeust) {
 		System.out.println("====== 게시물 수정 시작 ======");
+		
+		int id;
 
-		System.out.printf("수정할 게시물 번호 : ");
-		int id = Factory.getScanner().nextInt();
-		Factory.getScanner().nextLine(); // 스캐너 버퍼 비우기(int 받을 시 버퍼 발생).
+		try {
+			id = Integer.parseInt(reqeust.getArg1());
+		} catch (NumberFormatException e) {
+			System.out.println("게시물 번호를 숫자로 입력해주세요.");
+			return;
+		}
+		
+		Article article = articleService.getArticle(id);
 
+		if (article == null) {
+			System.out.println("해당 게시물은 존재하지 않습니다.");
+			return;
+		}
+		
 		if (id > 0) {
 			articleService.modify(id);
 		} else {
@@ -106,10 +118,18 @@ public class ArticleController extends Controller {
 			return;
 		}
 		
+		Article article = articleService.getArticle(id);
+
+		if (article == null) {
+			System.out.println("해당 게시물은 존재하지 않습니다.");
+			return;
+		}
+		
 		if (id > 0) {
 			articleService.delete(id);
 		} else {
 			System.out.println("다시 입력해 주세요.");
+			return;
 		}
 
 		System.out.println("====== 게시물 삭제 끝 ======");

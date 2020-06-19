@@ -39,6 +39,7 @@ public class ArticleService {
 			articleDao.modify(id);	
 		} else {
 			System.out.println("게시물 작성자만 수정 가능합니다.");
+			return;
 		}
 	}
 	
@@ -48,6 +49,7 @@ public class ArticleService {
 			articleDao.delete(id);	
 		} else {
 			System.out.println("게시물 작성자만 삭제 가능합니다.");
+			return;
 		}		
 	}
 	

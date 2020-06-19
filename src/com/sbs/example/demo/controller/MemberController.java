@@ -42,6 +42,12 @@ public class MemberController extends Controller {
 	private void actionLogin(Request reqeust) {
 		System.out.println("====== 로그인 시작 ======");
 		
+		// 중복 로그인 방지
+		if ( Factory.getSession().getLoginedMember() != null ) {
+			System.out.println("현재 다른 회원이 로그인 중입니다.");
+			return;
+		}
+		
 		System.out.printf("로그인 아이디 : ");
 		String loginId = Factory.getScanner().nextLine().trim();
 
@@ -49,14 +55,12 @@ public class MemberController extends Controller {
 		String loginPw = Factory.getScanner().nextLine().trim();
 
 		Member member = memberService.getMemberByLoginIdAndLoginPw(loginId, loginPw);
-
+		
 		if (member == null) {
 			System.out.println("일치하는 회원이 없습니다.");
 		} else if(Factory.getSession().getLoginedMember() == null) {
 			System.out.println(member.getName() + "님 환영합니다.");
 			Factory.getSession().setLoginedMember(member);
-		} else {
-			System.out.println("현재 다른 회원이 로그인 중입니다.");
 		}
 		
 		System.out.println("====== 로그인 끝 ======");
@@ -90,6 +94,7 @@ public class MemberController extends Controller {
 			memberService.join(loginId, loginPw, name);
 		} else if ((memberService.getMemberByLoginId(loginId) != null))  {
 			System.out.println("중복되는 아이디가 존재합니다.");
+			return;
 		}
 		
 		System.out.println("====== 회원가입 끝 ======");
