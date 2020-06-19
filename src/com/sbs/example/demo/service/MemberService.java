@@ -28,6 +28,11 @@ public class MemberService {
 		return memberDao.save(member);
 	}
 
+	// 회원가입 - 아이디 중복방지 기능
+	public Object getMemberByLoginId(String loginId) {
+		return memberDao.getMemberByLoginId(loginId);
+	}
+
 	// 
 	public Member getMember(int id) {
 		return memberDao.getMember(id);
@@ -41,11 +46,5 @@ public class MemberService {
 			join("admin", "admin", "관리자");
 		}
 	}
-
-	// 회원가입 - 아이디 중복방지 기능
-	public Object getMemberByLoginId(String loginId) {
-		return memberDao.getMemberByLoginId(loginId);
-	}
-
 	
 }

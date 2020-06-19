@@ -27,12 +27,39 @@ public class ArticleController extends Controller {
 			actionChangeBoard(reqeust);
 		} else if (reqeust.getActionName().equals("currentBoard")) {
 			actionCurrentBoard(reqeust);
+		} else if (reqeust.getActionName().equals("detail")) {
+			actionDetail(reqeust);
 		}
 	}
 	
 
+	// 게시물 상세보기
+	private void actionDetail(Request reqeust) {
+		System.out.println("====== 게시물 상세보기 시작 ======");
+		Board currentBoard = Factory.getSession().getCurrentBoard();
+		
+		System.out.printf("상세보기 할 게시물 번호 : ");
+		int id = Factory.getScanner().nextInt();
+		Factory.getScanner().nextLine();
+		
+		List<Article> articles = articleService.getArticlesByBoardCode(currentBoard.getCode());
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				System.out.println("게시물 번호 : " + article.getId() );
+				System.out.println("게시물 제목 : " + article.getTitle());
+				System.out.println("게시물 내용 : " + article.getBody());
+				System.out.println("게시물 작성자 : " + Factory.getMemberDao().getMember(article.getMemberId()).getLoginId() );
+				System.out.println("게시물 등록일자 : " + article.getRegDate() );
+			}
+		}
+		
+		
+		System.out.println("====== 게시물 상세보기 끝 ======");
+	}
+
 	// 게시물 리스트
 	private void actionList(Request reqeust) {
+		
 		Board currentBoard = Factory.getSession().getCurrentBoard();
 		List<Article> articles = articleService.getArticlesByBoardCode(currentBoard.getCode());
 
@@ -41,25 +68,31 @@ public class ArticleController extends Controller {
 			System.out.printf("%d, %s, %s\n", article.getId(), article.getRegDate(), article.getTitle());
 		}
 		System.out.printf("== %s 게시물 리스트 끝 ==\n", currentBoard.getName());
+		
 	}
 
 	// 게시물 작성
 	private void actionWrite(Request reqeust) {
 		System.out.println("====== 게시물 작성 시작 ======");
 		
-		System.out.printf("제목 : ");
-		String title = Factory.getScanner().nextLine();
-		System.out.printf("내용 : ");
-		String body = Factory.getScanner().nextLine();
+		if(Factory.getSession().getLoginedMember() != null) {
+			System.out.printf("제목 : ");
+			String title = Factory.getScanner().nextLine();
+			System.out.printf("내용 : ");
+			String body = Factory.getScanner().nextLine();
 
-		// 현재 게시판 id 가져오기
-		int boardId = Factory.getSession().getCurrentBoard().getId();
+			// 현재 게시판 id 가져오기
+			int boardId = Factory.getSession().getCurrentBoard().getId();
 
-		// 현재 로그인한 회원의 id 가져오기
-		int memberId = Factory.getSession().getLoginedMember().getId();
-		int newId = articleService.write(boardId, memberId, title, body);
+			// 현재 로그인한 회원의 id 가져오기
+			int memberId = Factory.getSession().getLoginedMember().getId();
+			int newId = articleService.write(boardId, memberId, title, body);
 
-		System.out.printf("%d번 글이 생성되었습니다.\n", newId);
+			System.out.printf("%d번 글이 생성되었습니다.\n", newId);
+		} else {
+			System.out.println("로그인 한 회원만 게시물 작성이 가능합니다.");
+		}
+		
 		System.out.println("====== 게시물 작성 끝 ======");
 	}
 	

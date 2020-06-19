@@ -14,18 +14,22 @@ public class Session {
 		return loginedMember;
 	}
 
+	// 현재 로그인 중인 맴버 정보 저장
 	public void setLoginedMember(Member loginedMember) {
 		this.loginedMember = loginedMember;
 	}
 
+	// 현재 게시판 정보 가져오기
 	public Board getCurrentBoard() {
 		return currentBoard;
 	}
 
+	// 현재 게시판 정보 저장
 	public void setCurrentBoard(Board currentBoard) {
 		this.currentBoard = currentBoard;
 	}
 
+	// 로그인 중인지 여부 확인
 	public boolean isLogined() {
 		return loginedMember != null;
 	}

@@ -32,12 +32,22 @@ public class ArticleService {
 	
 	// 게시물 수정
 	public void modify(int id) {
-		articleDao.modify(id);	
+		// 게시물 작성자 or 관리자만 수정가능
+		
+		if (articleDao.getArticle(id).getMemberId() == Factory.getSession().getLoginedMember().getId() || Factory.getSession().getLoginedMember().getLoginId().equals("admin")  ) {
+			articleDao.modify(id);	
+		} else {
+			System.out.println("게시물 작성자만 수정 가능합니다.");
+		}
 	}
 	
 	// 게시물 삭제
 	public void delete(int id) {
-		articleDao.delete(id);		
+		if (articleDao.getArticle(id).getMemberId() == Factory.getSession().getLoginedMember().getId() || Factory.getSession().getLoginedMember().getLoginId().equals("admin")  ) {
+			articleDao.delete(id);	
+		} else {
+			System.out.println("게시물 작성자만 삭제 가능합니다.");
+		}		
 	}
 	
 

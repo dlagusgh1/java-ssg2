@@ -143,6 +143,23 @@ public class ArticleDao {
 		return boards;
 	}
 	
+	// 보드 가져오기 - 보드 번호에 따른 보드 가져오기
+		public Article getArticle(int id) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(String.format("SELECT * "));
+			sb.append(String.format("FROM `article` "));
+			sb.append(String.format("WHERE 1 "));
+			sb.append(String.format("AND `id` = '%d' ", id));
+
+			Map<String, Object> row = dbConnection.selectRow(sb.toString());
+			
+			if ( row.isEmpty() ) {
+				return null;
+			}
+			
+			return new Article(row);
+		}
 
 	// 보드 가져오기 - 보드 번호에 따른 보드 가져오기
 	public Board getBoard(int id) {
