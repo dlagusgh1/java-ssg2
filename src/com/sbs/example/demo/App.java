@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sbs.example.demo.controller.ArticleController;
 import com.sbs.example.demo.controller.BuildController;
+import com.sbs.example.demo.controller.CommentController;
 import com.sbs.example.demo.controller.Controller;
 import com.sbs.example.demo.controller.MemberController;
 import com.sbs.example.demo.controller.Request;
@@ -22,6 +23,7 @@ public class App {
 		controllers.put("build", new BuildController());
 		controllers.put("article", new ArticleController());
 		controllers.put("member", new MemberController());
+		controllers.put("comment", new CommentController());
 	}
 
 	public App() {

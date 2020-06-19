@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sbs.example.demo.db.DBConnection;
 import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.ArticleReply;
 import com.sbs.example.demo.dto.Board;
 import com.sbs.example.demo.factory.Factory;
 
@@ -189,6 +190,25 @@ public class ArticleDao {
 		sb.append(String.format(", `name` = '%s' ", board.getName()));
 
 		return dbConnection.insert(sb.toString());
+	}
+
+	// 게시물 가져오기 ( 댓글 작성을 위해 입력된 번호에 따른 해당 게시물 )
+	public List<ArticleReply> getArticleRepliesByArticleId(int articleId) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `articleReply` "));
+		sb.append(String.format("WHERE articleId = '%d' ", articleId));
+		sb.append(String.format("ORDER BY id DESC "));
+
+		List<ArticleReply> articleReplies = new ArrayList<>();
+		List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+		for (Map<String, Object> row : rows) {
+			articleReplies.add(new ArticleReply(row));
+		}
+
+		return articleReplies;
 	}
 
 }

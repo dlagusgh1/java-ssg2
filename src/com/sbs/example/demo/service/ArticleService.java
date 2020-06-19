@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbs.example.demo.dao.ArticleDao;
 import com.sbs.example.demo.dto.Article;
+import com.sbs.example.demo.dto.ArticleReply;
 import com.sbs.example.demo.dto.Board;
 import com.sbs.example.demo.factory.Factory;
 
@@ -86,5 +87,16 @@ public class ArticleService {
 			makeBoard(name, code);
 		}
 	}
+
+	// 게시물 존재유무 확인
+	public Article getArticle(int id) {
+		return articleDao.getArticle(id);
+	}
+	
+	// 게시물 가져오기 ( 댓글 작성을 위해 입력된 번호에 따른 해당 게시물 )
+	public List<ArticleReply> getArticleRepliesByArticleId(int id) {
+		return articleDao.getArticleRepliesByArticleId(id);
+	}
+
 
 }

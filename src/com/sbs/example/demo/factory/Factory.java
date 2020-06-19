@@ -2,12 +2,15 @@ package com.sbs.example.demo.factory;
 
 import java.util.Scanner;
 
+
 import com.sbs.example.demo.controller.Session;
 import com.sbs.example.demo.dao.ArticleDao;
+import com.sbs.example.demo.dao.CommentDao;
 import com.sbs.example.demo.dao.MemberDao;
 import com.sbs.example.demo.db.DBConnection;
 import com.sbs.example.demo.service.ArticleService;
 import com.sbs.example.demo.service.BuildService;
+import com.sbs.example.demo.service.CommentService;
 import com.sbs.example.demo.service.MemberService;
 
 public class Factory {
@@ -18,6 +21,8 @@ public class Factory {
 	private static ArticleDao articleDao;
 	private static MemberService memberService;
 	private static MemberDao memberDao;
+	private static CommentService commentService;
+	private static CommentDao commentDao;
 	private static Scanner scanner;
 
 	public static DBConnection getDBConnection() {
@@ -81,5 +86,20 @@ public class Factory {
 		}
 
 		return buildService;
+	}
+
+	public static CommentService getCommentService() {
+		if (commentService == null) {
+			commentService = new CommentService();
+		}
+		return commentService;
+	}
+	
+	public static CommentDao getCommentDao() {
+		if (commentDao == null) {
+			commentDao = new CommentDao();
+		}
+
+		return commentDao;
 	}
 }

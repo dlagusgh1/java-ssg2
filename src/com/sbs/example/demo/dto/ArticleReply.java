@@ -1,5 +1,8 @@
 package com.sbs.example.demo.dto;
 
+import java.util.Map;
+
+// 댓글 관련
 public class ArticleReply extends Dto {
 	private int id;
 	private String regDate;
@@ -9,6 +12,19 @@ public class ArticleReply extends Dto {
 
 	public ArticleReply() {
 
+	}
+
+	public ArticleReply(int memberId, int articleId, String body) {
+		this.memberId = memberId;
+		this.articleId = articleId;
+		this.body = body;
+	}
+
+	public ArticleReply(Map<String, Object> row) {
+		super((int) row.get("id"), (String) row.get("regDate"));
+		this.body = (String) row.get("body");
+		this.memberId = (int) row.get("memberId");
+		this.articleId = (int) row.get("articleId");
 	}
 
 	public int getArticleId() {
