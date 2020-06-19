@@ -29,14 +29,14 @@ public class ArticleDao {
 
 		List<Article> articles = new ArrayList<>();
 		List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
-		
-		for ( Map<String, Object> row : rows ) {
+
+		for (Map<String, Object> row : rows) {
 			articles.add(new Article(row));
 		}
-		
+
 		return articles;
 	}
-	
+
 	// article 게시물 리스트(보드 코드에 따라 notice / free)
 	public List<Article> getArticlesByBoardCode(String code) {
 		StringBuilder sb = new StringBuilder();
@@ -51,11 +51,11 @@ public class ArticleDao {
 
 		List<Article> articles = new ArrayList<>();
 		List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
-		
-		for ( Map<String, Object> row : rows ) {
+
+		for (Map<String, Object> row : rows) {
 			articles.add(new Article(row));
 		}
-		
+
 		return articles;
 	}
 
@@ -72,29 +72,24 @@ public class ArticleDao {
 
 		return dbConnection.insert(sb.toString());
 	}
-	
+
 	// 게시물 수정
 	public void modify(int id) {
 		StringBuilder sb = new StringBuilder();
-		List<Article> articles = getArticles();
 
-		for (Article article : articles) {
-			if (article.getId() == id) {
-				System.out.printf("제목 : ");
-				String title = Factory.getScanner().nextLine();
-				System.out.printf("내용 : ");
-				String body = Factory.getScanner().nextLine();
-				
-				sb.append(String.format("UPDATE article "));
-				sb.append(String.format("SET title = '%s' ", title));
-				sb.append(String.format(", `body` = '%s' ", body));
-				sb.append(String.format("WHERE id = '%d' ", id));
+		System.out.printf("제목 : ");
+		String title = Factory.getScanner().nextLine();
+		System.out.printf("내용 : ");
+		String body = Factory.getScanner().nextLine();
 
-				dbConnection.update(sb.toString());
-				System.out.printf("%d번 글이 수정되었습니다.\n", id);
-				break;
-			}
-		}
+		sb.append(String.format("UPDATE article "));
+		sb.append(String.format("SET title = '%s' ", title));
+		sb.append(String.format(", `body` = '%s' ", body));
+		sb.append(String.format("WHERE id = '%d' ", id));
+
+		dbConnection.update(sb.toString());
+		System.out.printf("%d번 글이 수정되었습니다.\n", id);
+
 	}
 
 	// 게시물 삭제
@@ -102,11 +97,11 @@ public class ArticleDao {
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("DELETE FROM "));
 		sb.append(String.format("article WHERE id = '%d' ", id));
-		
+
 		dbConnection.delete(sb.toString());
 		System.out.printf("%d번 글이 삭제되었습니다.\n", id);
 	}
-	
+
 	// 게시판 변경 관련 - 보드코드(notice(1) / free(2))에 따른 보드 가져오기
 	public Board getBoardByCode(String code) {
 		StringBuilder sb = new StringBuilder();
@@ -117,14 +112,14 @@ public class ArticleDao {
 		sb.append(String.format("AND `code` = '%s' ", code));
 
 		Map<String, Object> row = dbConnection.selectRow(sb.toString());
-		
-		if ( row.isEmpty() ) {
+
+		if (row.isEmpty()) {
 			return null;
 		}
-		
+
 		return new Board(row);
 	}
-	
+
 	// 보드 리스트 가져오기(전체)
 	public List<Board> getBoards() {
 		StringBuilder sb = new StringBuilder();
@@ -136,31 +131,31 @@ public class ArticleDao {
 
 		List<Board> boards = new ArrayList<>();
 		List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
-		
-		for ( Map<String, Object> row : rows ) {
+
+		for (Map<String, Object> row : rows) {
 			boards.add(new Board(row));
 		}
-		
+
 		return boards;
 	}
-	
-	// 특정 게시물 가져오기.
-		public Article getArticle(int id) {
-			StringBuilder sb = new StringBuilder();
 
-			sb.append(String.format("SELECT * "));
-			sb.append(String.format("FROM `article` "));
-			sb.append(String.format("WHERE 1 "));
-			sb.append(String.format("AND `id` = '%d' ", id));
+	// 특정 게시물 가져오기.(게시물 존재유무 등 체크 위함)
+	public Article getArticle(int id) {
+		StringBuilder sb = new StringBuilder();
 
-			Map<String, Object> row = dbConnection.selectRow(sb.toString());
-			
-			if ( row.isEmpty() ) {
-				return null;
-			}
-			
-			return new Article(row);
+		sb.append(String.format("SELECT * "));
+		sb.append(String.format("FROM `article` "));
+		sb.append(String.format("WHERE 1 "));
+		sb.append(String.format("AND `id` = '%d' ", id));
+
+		Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+		if (row.isEmpty()) {
+			return null;
 		}
+
+		return new Article(row);
+	}
 
 	// 보드 가져오기 - 보드 번호에 따른 보드 가져오기
 	public Board getBoard(int id) {
@@ -172,11 +167,11 @@ public class ArticleDao {
 		sb.append(String.format("AND `id` = '%d' ", id));
 
 		Map<String, Object> row = dbConnection.selectRow(sb.toString());
-		
-		if ( row.isEmpty() ) {
+
+		if (row.isEmpty()) {
 			return null;
 		}
-		
+
 		return new Board(row);
 	}
 

@@ -27,4 +27,19 @@ public class CommentService {
 		}
 	}
 
+	// 댓글 존재유무 확인
+	public ArticleReply getArticleReply(int id) {
+		return commentDao.getArticleReply(id);
+	}
+
+	// 게시물 수정
+	public void modify(int id) {
+		if (commentDao.getComment(id).getMemberId() == Factory.getSession().getLoginedMember().getId() || Factory.getSession().getLoginedMember().getLoginId().equals("admin")  ) {
+			commentDao.modify(id);	
+		} else {
+			System.out.println("게시물 작성자만 수정 가능합니다.");
+			return;
+		}
+	}
+
 }
