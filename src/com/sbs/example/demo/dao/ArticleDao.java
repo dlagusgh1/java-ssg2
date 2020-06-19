@@ -144,7 +144,7 @@ public class ArticleDao {
 		return boards;
 	}
 	
-	// 보드 가져오기 - 보드 번호에 따른 보드 가져오기
+	// 특정 게시물 가져오기.
 		public Article getArticle(int id) {
 			StringBuilder sb = new StringBuilder();
 

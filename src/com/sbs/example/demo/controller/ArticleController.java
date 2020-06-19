@@ -71,6 +71,7 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 글이 생성되었습니다.\n", newId);
 		} else {
 			System.out.println("로그인 한 회원만 게시물 작성이 가능합니다.");
+			return;
 		}
 
 		System.out.println("====== 게시물 작성 끝 ======");
@@ -79,27 +80,32 @@ public class ArticleController extends Controller {
 	// 게시물 수정
 	private void actionModify(Request reqeust) {
 		System.out.println("====== 게시물 수정 시작 ======");
-		
-		int id;
 
-		try {
-			id = Integer.parseInt(reqeust.getArg1());
-		} catch (NumberFormatException e) {
-			System.out.println("게시물 번호를 숫자로 입력해주세요.");
-			return;
-		}
-		
-		Article article = articleService.getArticle(id);
+		// 로그인 여부 체크
+		if (Factory.getSession().getLoginedMember() != null) {
+			int id;
 
-		if (article == null) {
-			System.out.println("해당 게시물은 존재하지 않습니다.");
-			return;
-		}
-		
-		if (id > 0) {
+			// 번호 입력이 제대로 되었는지 체크
+			try {
+				id = Integer.parseInt(reqeust.getArg1());
+			} catch (NumberFormatException e) {
+				System.out.println("게시물 번호를 숫자로 입력해주세요.");
+				return;
+			}
+
+			Article article = articleService.getArticle(id);
+
+			// 게시물 존재여부 체크
+			if (article == null) {
+				System.out.println("해당 게시물은 존재하지 않습니다.");
+				return;
+			}
+
 			articleService.modify(id);
+			
 		} else {
-			System.out.println("다시 입력해 주세요.");
+			System.out.println("로그인 한 회원만 게시물 삭제가 가능합니다.");
+			return;
 		}
 
 		System.out.println("====== 게시물 수정 끝 ======");
@@ -108,27 +114,31 @@ public class ArticleController extends Controller {
 	// 게시물 삭제
 	private void actionDelete(Request reqeust) {
 		System.out.println("====== 게시물 삭제 시작 ======");
-		
-		int id;
 
-		try {
-			id = Integer.parseInt(reqeust.getArg1());
-		} catch (NumberFormatException e) {
-			System.out.println("게시물 번호를 숫자로 입력해주세요.");
-			return;
-		}
-		
-		Article article = articleService.getArticle(id);
+		// 로그인 여부 체크
+		if (Factory.getSession().getLoginedMember() != null) {
+			int id;
 
-		if (article == null) {
-			System.out.println("해당 게시물은 존재하지 않습니다.");
-			return;
-		}
-		
-		if (id > 0) {
+			// 번호 입력이 제대로 되었는지 체크
+			try {
+				id = Integer.parseInt(reqeust.getArg1());
+			} catch (NumberFormatException e) {
+				System.out.println("게시물 번호를 숫자로 입력해주세요.");
+				return;
+			}
+
+			Article article = articleService.getArticle(id);
+
+			// 게시물 존재여부 체크
+			if (article == null) {
+				System.out.println("해당 게시물은 존재하지 않습니다.");
+				return;
+			}
+
 			articleService.delete(id);
+			
 		} else {
-			System.out.println("다시 입력해 주세요.");
+			System.out.println("로그인 한 회원만 게시물 삭제가 가능합니다.");
 			return;
 		}
 
@@ -168,6 +178,7 @@ public class ArticleController extends Controller {
 
 		int id;
 
+		// 번호 입력이 제대로 되었는지 체크
 		try {
 			id = Integer.parseInt(reqeust.getArg1());
 		} catch (NumberFormatException e) {
@@ -177,6 +188,7 @@ public class ArticleController extends Controller {
 
 		Article article = articleService.getArticle(id);
 
+		// 게시물 존재여부 체크
 		if (article == null) {
 			System.out.println("해당 게시물은 존재하지 않습니다.");
 			return;
